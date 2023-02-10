@@ -51,33 +51,40 @@ class PatchDataset(VisionDataset):
 class TissueDataModule(plt.LightningDataModule):
 
     def __init__(self, data_root, dl_kwargs, tissue_type, train_split='train', test_split='test',
-                 image_size=224, color_aug=False):
+                 image_size=224, augmentation=None):
         super().__init__()
         self.data_root = data_root
         self.dl_kwargs = dl_kwargs
 
-        if color_aug:
+        if augmentation == 'v1':
+            train_aug = transforms.Compose([
+                transforms.Resize(image_size),
+                transforms.ToTensor(),
+                transforms.Normalize(*IMAGENET_NORM)
+            ])
+        elif augmentation == 'v2':
+            train_aug = transforms.Compose([
+                transforms.Resize(image_size),
+                transforms.RandomResizedCrop(image_size, scale=(0.7, 1.0)),
+                transforms.RandomHorizontalFlip(),
+                transforms.RandomVerticalFlip(),
+                transforms.ToTensor(),
+                transforms.Normalize(*IMAGENET_NORM)
+            ])
+        elif augmentation == 'v3':
             train_aug = transforms.Compose([
                 transforms.Resize(image_size),
                 transforms.RandomResizedCrop(image_size, scale=(0.7, 1.0)),
                 transforms.ColorJitter(0.2, 0.2, 0.1, 0.05),
                 transforms.RandomEqualize(p=0.3),
                 transforms.RandomApply([transforms.RandomGrayscale(3)], p=0.3),
-                # transforms.RandomApply([transforms.RandomRotation(degrees=(0, 360))], p=0.5),
                 transforms.RandomHorizontalFlip(),
                 transforms.RandomVerticalFlip(),
                 transforms.ToTensor(),
                 transforms.Normalize(*IMAGENET_NORM)
             ])
         else:
-            train_aug = transforms.Compose([
-                transforms.Resize(image_size),
-                transforms.RandomResizedCrop(image_size, scale=(0.7, 1.0)),
-                transforms.RandomHorizontalFlip(),
-                transforms.RandomVerticalFlip(),
-                transforms.ToTensor(),
-                transforms.Normalize(*IMAGENET_NORM)
-            ])
+            raise ValueError()
 
         test_aug = transforms.Compose([
             transforms.Resize(image_size),

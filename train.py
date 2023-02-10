@@ -32,14 +32,14 @@ if __name__ == '__main__':
     parser.add_argument('--tissue-type', default='kidney')
     parser.add_argument('--gradient-clip', default=None, type=float)
     parser.add_argument('--pretrained', action='store_true')
-    parser.add_argument('--color-aug', action='store_true')
+    parser.add_argument('--augmentation', default="v1")
     args = parser.parse_args()
 
     dl_kwargs = dict(batch_size=args.batch_size, num_workers=args.num_workers)
 
     dataset = TissueDataModule(args.data_root, dl_kwargs=dl_kwargs,
                                image_size=args.image_size,
-                               color_aug=args.color_aug,
+                               augmentation=args.augmentation,
                                train_split=args.train_split,
                                test_split=args.test_split,
                                tissue_type=args.tissue_type)
