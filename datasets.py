@@ -50,10 +50,9 @@ class PatchDataset(VisionDataset):
 
 class TissueDataModule(plt.LightningDataModule):
 
-    def __init__(self, data_root, dl_kwargs, tissue_type, train_split='train', test_split='test',
+    def __init__(self, train_path, test_path, dl_kwargs, train_split='train', test_split='test',
                  image_size=224, augmentation=None):
         super().__init__()
-        self.data_root = data_root
         self.dl_kwargs = dl_kwargs
 
         if augmentation == 'v1':
@@ -92,9 +91,8 @@ class TissueDataModule(plt.LightningDataModule):
             transforms.Normalize(*IMAGENET_NORM)
         ])
 
-        path = os.path.join(self.data_root, tissue_type)
-        self.train_ds = PatchDataset(root=path, split=train_split, transform=train_aug)
-        self.test_ds = PatchDataset(root=path, split=test_split, transform=test_aug)
+        self.train_ds = PatchDataset(root=train_path, split=train_split, transform=train_aug)
+        self.test_ds = PatchDataset(root=test_path, split=test_split, transform=test_aug)
 
     def setup(self, stage: Optional[str] = None):
         pass
@@ -104,7 +102,7 @@ class TissueDataModule(plt.LightningDataModule):
                                                  replacement=False,
                                                  num_samples=5000)
         return DataLoader(self.train_ds, sampler=sampler, **self.dl_kwargs)
-        #return DataLoader(self.train_ds, drop_last=False, **self.dl_kwargs, shuffle=True)
+        # return DataLoader(self.train_ds, drop_last=False, **self.dl_kwargs, shuffle=True)
 
     def val_dataloader(self):
         return DataLoader(self.test_ds, drop_last=False, **self.dl_kwargs)

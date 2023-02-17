@@ -12,24 +12,20 @@ from torchvision.models import resnet18
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--data-root', default='resources/datasets')
     parser.add_argument('--logdir', required=True)
     parser.add_argument('--batch_size', type=int, default=32)
     parser.add_argument('--num_workers', type=int, default=2)
     parser.add_argument('--learning-rate', type=float, default=0.001)
     parser.add_argument('--epochs', type=int, default=50)
     parser.add_argument('--weight-decay', type=float, default=1e-4)
-    parser.add_argument('--augmentations', default='none')
-    parser.add_argument('--checkpoint', default=None)
     parser.add_argument('--loss', choices=['bce', 'ce'], default='ce')
     parser.add_argument('--image-size', type=int, default=224)
     parser.add_argument('--val-interval', type=int, default=5)
-    parser.add_argument('--grayscale', action='store_true')
-    parser.add_argument('--dataset')
     parser.add_argument('--classes', type=int, default=3)
     parser.add_argument('--train-split', default='train')
     parser.add_argument('--test-split', default='test')
-    parser.add_argument('--tissue-type', default='kidney')
+    parser.add_argument('--train-path')
+    parser.add_argument('--test-path')
     parser.add_argument('--gradient-clip', default=None, type=float)
     parser.add_argument('--pretrained', action='store_true')
     parser.add_argument('--augmentation', default="v1")
@@ -37,12 +33,13 @@ if __name__ == '__main__':
 
     dl_kwargs = dict(batch_size=args.batch_size, num_workers=args.num_workers)
 
-    dataset = TissueDataModule(args.data_root, dl_kwargs=dl_kwargs,
+    dataset = TissueDataModule(dl_kwargs=dl_kwargs,
                                image_size=args.image_size,
                                augmentation=args.augmentation,
                                train_split=args.train_split,
                                test_split=args.test_split,
-                               tissue_type=args.tissue_type)
+                               train_path=args.train_path,
+                               test_path=args.test_path)
     num_classes = args.classes
 
     backbone = resnet18(pretrained=args.pretrained)
