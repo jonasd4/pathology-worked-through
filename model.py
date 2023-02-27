@@ -73,4 +73,4 @@ class Model(pl.LightningModule):
                                     lr=self.hparams.learning_rate,
                                     momentum=0.9, weight_decay=self.hparams.weight_decay)
         scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=self.epochs)
-        return optimizer
+        return [optimizer], [scheduler]

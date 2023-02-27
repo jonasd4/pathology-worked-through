@@ -8,7 +8,7 @@ import argparse
 from pytorch_lightning.callbacks.model_checkpoint import ModelCheckpoint
 from model import Model
 from datasets import TissueDataModule
-from torchvision.models import resnet18
+from torchvision.models import resnet18, alexnet
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -29,6 +29,7 @@ if __name__ == '__main__':
     parser.add_argument('--gradient-clip', default=None, type=float)
     parser.add_argument('--pretrained', action='store_true')
     parser.add_argument('--augmentation', default="v1")
+    parser.add_argument('--backbone', default='resnet18')
     args = parser.parse_args()
 
     dl_kwargs = dict(batch_size=args.batch_size, num_workers=args.num_workers)

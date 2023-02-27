@@ -41,7 +41,7 @@ def normalize_all_slides(source_dir, target_dir, level='patch', num_samples=1000
     for slide_id in tqdm(os.listdir(source_dir)):
         slide_source_path = os.path.join(source_dir, slide_id)
         if not os.path.isdir(slide_source_path) or \
-                len([patch for patch in os.listdir(slide_source_path) if patch.endswith('.jpg')]) == 0:
+                len([patch for patch in os.listdir(slide_source_path) if patch.endswith('.tif')]) == 0:
             continue
         slide_target_path = os.path.join(target_dir, slide_id)
         if level == 'slide':
@@ -83,7 +83,7 @@ def normalize_slide(source_slide_dir, target_slide_dir, normalizer, num_samples)
 def normalize_patches(source_slide_dir, target_slide_dir, normalizer):
 
     # Set up data structures
-    patch_files = [patch for patch in os.listdir(source_slide_dir) if patch.endswith('.jpg')]
+    patch_files = [patch for patch in os.listdir(source_slide_dir) if patch.endswith('.tif')]
 
     # Normalize all slide patches
     os.makedirs(target_slide_dir, exist_ok=True)
