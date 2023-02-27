@@ -9,7 +9,6 @@ from PIL import Image
 import torch
 
 IMAGENET_NORM = [[0.485, 0.456, 0.406], [0.229, 0.224, 0.225]]
-NORM = [[0.75104631, 0.47663395, 0.67639612], [0.04489756, 0.06757068, 0.07309701]]
 
 
 def pil_loader(path: str) -> Image.Image:
