@@ -1,7 +1,9 @@
-# Worked Through Example (Image Analysis)
+## Worked-Through Example: Cancer classification from images
 
-* [List of Datasets](https://github.com/maduc7/Histopathology-Datasets#search)
-* [Datset with different tissue types and cancer types](https://zenodo.org/record/5889558#.Y763o-zMLmF)
-  * includes TCGA barcode which encodes from which Tissue source site (TSS) samples originate
-  * possible classification problem: Kidney_Chromophobe, Kidney_renal_clear_cell_carcinoma, Kidney_renal_papillary_cell_carcinoma
-  * does this classification problem make clinical sense?
+This is the code for the first worked-through example: Cancer classification from images in our paper Explainable AI for Precision Pathology. 
+We will train a model to classify different colorectal patches into tissue classes. 
+The tissue classes are: Adipose (ADI), background (BACK), debris (DEB), lymphocytes (LYM), mucus (MUC), smooth muscle (MUS), normal colon mucosa (NORM), cancer-associated stroma (STR), colorectal adenocarcinoma epithelium (TUM).
+
+The best way to get started is to clone this repository and follow the notebook.
+You can also directly follow the notebook on Google Colab.
+
